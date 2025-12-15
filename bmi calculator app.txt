@@ -1,0 +1,57 @@
+def calculate_bmi(weight, height):
+    """Calculate BMI given weight in kg and height in meters."""
+    return weight / (height ** 2)
+
+def get_user_input(prompt, unit):
+    """Get valid numeric input from the user."""
+    while True:
+        try:
+            value = float(input(prompt))
+            if value <= 0:
+                print(f"Please enter a positive {unit}.")
+                continue
+            return value
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+def interpret_bmi(bmi):
+    """Interpret BMI based on standard categories."""
+    if bmi < 18.5:
+        return "Underweight"
+    elif 18.5 <= bmi < 25:
+        return "Normal weight"
+    elif 25 <= bmi < 30:
+        return "Overweight"
+    else:
+        return "Obese"
+
+def main():
+    print("Welcome to the BMI Calculator App!")
+    print("This app calculates your Body Mass Index (BMI) based on your weight and height.\n")
+    
+    # Get weight
+    weight = get_user_input("Enter your weight in kg: ", "weight")
+    
+    # Get height
+    height_unit = input("Enter height in meters (m) or centimeters (cm)? (m/cm): ").strip().lower()
+    if height_unit == 'cm':
+        height_cm = get_user_input("Enter your height in cm: ", "height")
+        height = height_cm / 100  # Convert to meters
+    elif height_unit == 'm':
+        height = get_user_input("Enter your height in meters: ", "height")
+    else:
+        print("Invalid unit. Defaulting to meters.")
+        height = get_user_input("Enter your height in meters: ", "height")
+    
+    # Calculate BMI
+    bmi = calculate_bmi(weight, height)
+    bmi_rounded = round(bmi, 2)
+    
+    # Interpret and display results
+    category = interpret_bmi(bmi)
+    print(f"\nYour BMI is: {bmi_rounded}")
+    print(f"Category: {category}")
+    print("\nNote: BMI is a general indicator and may not account for muscle mass or other factors. Consult a healthcare professional for personalized advice.")
+
+if __name__ == "__main__":
+    main()
